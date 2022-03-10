@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import '../errors/value_error.dart';
 import '../failures/value_failures.dart';
 
 class Email {
@@ -11,6 +12,13 @@ class Email {
   }
 
   const Email._(this.value);
+
+  String getOrCrash() {
+    return value.fold(
+      (failure) => throw UnExpectedValueError(failure),
+      (email) => email,
+    );
+  }
 
   @override
   bool operator ==(Object other) {

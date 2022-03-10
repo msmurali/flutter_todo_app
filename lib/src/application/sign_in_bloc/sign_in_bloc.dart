@@ -6,8 +6,8 @@ import 'package:meta/meta.dart';
 
 import '../../domain/auth/i_auth_facade.dart';
 import '../../domain/auth/failures/auth_failures.dart';
-import '../../domain/auth/value_objects/email.dart';
-import '../../domain/auth/value_objects/password.dart';
+import '../../domain/core/value_objects/email.dart';
+import '../../domain/core/value_objects/password.dart';
 
 part 'sign_in_event.dart';
 part 'sign_in_state.dart';

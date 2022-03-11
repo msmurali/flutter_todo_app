@@ -10,7 +10,6 @@ class AppWidget extends StatelessWidget {
     return MaterialApp(
       title: 'Todoist',
       theme: AppThemes.light,
-      home: Container(),
       onGenerateRoute: AppRoutes.generateRoute,
       initialRoute: '/',
     );

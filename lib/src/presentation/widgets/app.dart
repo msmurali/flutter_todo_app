@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../router/app_routes.dart';
+import '../themes/app_themes.dart';
 
 class AppWidget extends StatelessWidget {
   const AppWidget({Key? key}) : super(key: key);
@@ -7,10 +9,10 @@ class AppWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Todoist',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: AppThemes.light,
       home: Container(),
+      onGenerateRoute: AppRoutes.generateRoute,
+      initialRoute: '/',
     );
   }
 }

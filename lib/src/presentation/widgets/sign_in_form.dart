@@ -6,85 +6,115 @@ class SignInForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        if (true) const LinearProgressIndicator(),
-        Expanded(
-          child: SingleChildScrollView(
-            child: Form(
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Welcome',
-                    style: TextStyle(
-                      fontSize: 32.0,
-                      fontWeight: FontWeight.w600,
-                      letterSpacing: -0.5,
-                    ),
+    final ThemeData theme = Theme.of(context);
+
+    return Container(
+      color: Colors.green,
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          if (true)
+            LinearProgressIndicator(
+              color: theme.primaryColor,
+              backgroundColor: theme.primaryColor.withOpacity(0.3),
+            ),
+          Center(
+            child: Container(
+              color: Colors.blue,
+              child: Form(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 32.0,
+                    horizontal: 24.0,
                   ),
-                  const SizedBox(height: 32.0),
-                  TextFormField(
-                    autocorrect: false,
-                    decoration: const InputDecoration(
-                      hintText: 'Email',
-                      prefixIcon: Icon(Icons.account_circle),
-                    ),
-                  ),
-                  const SizedBox(height: 32.0),
-                  TextFormField(
-                    autocorrect: false,
-                    decoration: const InputDecoration(
-                      hintText: 'Password',
-                      prefixIcon: Icon(Icons.lock),
-                    ),
-                    obscureText: true,
-                  ),
-                  const SizedBox(height: 32.0),
-                  Row(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          child: const Text('Sign In'),
-                          onPressed: () {},
+                      Text(
+                        'Welcome 🎉',
+                        style: theme.textTheme.bodyText1!.copyWith(
+                          color: Colors.black,
+                          fontSize: 24.0,
+                          letterSpacing: -.5,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
-                      Expanded(
-                        child: ElevatedButton(
-                          child: const Text('Register'),
-                          onPressed: () {},
+                      const SizedBox(height: 32.0),
+                      TextFormField(
+                        autocorrect: false,
+                        decoration: const InputDecoration(
+                          hintText: 'Email',
+                          prefixIcon: Icon(Icons.account_circle),
                         ),
+                      ),
+                      const SizedBox(height: 32.0),
+                      TextFormField(
+                        autocorrect: false,
+                        decoration: const InputDecoration(
+                          hintText: 'Password',
+                          prefixIcon: Icon(Icons.lock),
+                        ),
+                        obscureText: true,
+                      ),
+                      const SizedBox(height: 32.0),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              child: Text(
+                                'Sign In',
+                                style: theme.textTheme.bodyText1!,
+                              ),
+                              onPressed: () {},
+                            ),
+                          ),
+                          const SizedBox(width: 20.0),
+                          Expanded(
+                            child: ElevatedButton(
+                              child: Text(
+                                'Register',
+                                style: theme.textTheme.bodyText1!,
+                              ),
+                              onPressed: () {},
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 32.0),
+                      ElevatedButton(
+                        style: theme.elevatedButtonTheme.style!.copyWith(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.white),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              'asset/images/google.svg',
+                              width: 32.0,
+                              height: 32.0,
+                            ),
+                            const SizedBox(width: 20.0),
+                            Text(
+                              'Sign In with Google',
+                              style: theme.textTheme.bodyText1!.copyWith(
+                                color: Colors.black,
+                              ),
+                            ),
+                          ],
+                        ),
+                        onPressed: () {},
                       ),
                     ],
                   ),
-                  const SizedBox(height: 32.0),
-                  ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.white),
-                    ),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(
-                          'asset/images/google.svg',
-                          width: 32.0,
-                          height: 32.0,
-                        ),
-                        const Text(
-                          'Sign In with Google',
-                          style: TextStyle(fontFamily: 'Poppins'),
-                        ),
-                      ],
-                    ),
-                    onPressed: () {},
-                  ),
-                ],
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

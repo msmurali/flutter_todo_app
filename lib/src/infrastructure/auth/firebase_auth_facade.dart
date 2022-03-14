@@ -3,18 +3,16 @@ import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:dartz/dartz.dart';
 
-import '../domain/auth/failures/auth_failures.dart';
-import '../domain/auth/i_auth_facade.dart';
-import '../domain/core/value_objects/password.dart';
-import '../domain/core/value_objects/email.dart';
+import '../../domain/auth/failures/auth_failures.dart';
+import '../../domain/core/value_objects/password.dart';
+import '../../domain/core/value_objects/email.dart';
 
-class FirebaseAuthFacade implements IAuthFacade {
+class FirebaseAuthFacade {
   final FirebaseAuth firebaseAuth;
   final GoogleSignIn googleSignIn;
 
-  const FirebaseAuthFacade(this.firebaseAuth, this.googleSignIn);
+  FirebaseAuthFacade(this.firebaseAuth, this.googleSignIn);
 
-  @override
   Future<Either<AuthFailure, Unit>> registerWithEmailAndPassword({
     required Email email,
     required Password password,
@@ -36,7 +34,6 @@ class FirebaseAuthFacade implements IAuthFacade {
     return right(unit);
   }
 
-  @override
   Future<Either<AuthFailure, Unit>> signInWithEmailAndPassword({
     required Email email,
     required Password password,
@@ -60,7 +57,6 @@ class FirebaseAuthFacade implements IAuthFacade {
     return right(unit);
   }
 
-  @override
   Future<Either<AuthFailure, Unit>> signInWithGoogle() async {
     final GoogleSignInAccount? account = await googleSignIn.signIn();
     if (account == null) {

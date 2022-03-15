@@ -5,9 +5,10 @@ import './widgets/toast.dart';
 void showToastMsg(BuildContext context, String msg) {
   final FToast ftoast = FToast();
   ftoast.init(context);
+  ftoast.removeQueuedCustomToasts();
   ftoast.showToast(
     child: Toast(msg: msg),
     gravity: ToastGravity.BOTTOM,
-    toastDuration: const Duration(milliseconds: 500),
+    toastDuration: const Duration(milliseconds: 1200),
   );
 }

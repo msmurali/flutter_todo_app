@@ -1,11 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/services.dart';
+import 'package:firebase_auth/firebase_auth.dart' hide User;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../domain/auth/failures/auth_failures.dart';
 import '../../domain/core/value_objects/password.dart';
 import '../../domain/core/value_objects/email.dart';
+import '../../domain/core/entities/user.dart';
+import '../../domain/core/value_objects/uid.dart';
 
 class FirebaseAuthFacade {
   final FirebaseAuth firebaseAuth;
@@ -24,7 +25,7 @@ class FirebaseAuthFacade {
         email: emailVal,
         password: passwordVal,
       );
-    } on PlatformException catch (e) {
+    } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
         return left(const AuthFailure.emailAlreadyInUse());
       } else {
@@ -45,7 +46,7 @@ class FirebaseAuthFacade {
         email: emailVal,
         password: passwordVal,
       );
-    } on PlatformException catch (e) {
+    } on FirebaseAuthException catch (e) {
       if (e.code == 'wrong-password' ||
           e.code == 'user-not-found' ||
           e.code == 'user-disabled') {
@@ -71,11 +72,29 @@ class FirebaseAuthFacade {
 
       try {
         await firebaseAuth.signInWithCredential(authCredential);
-      } on PlatformException catch (_) {
+      } on FirebaseAuthException catch (_) {
         return left(const AuthFailure.serverError());
       }
 
       return right(unit);
     }
   }
+
+  Future<Option<User>> getCurrentUser() async {
+    if (firebaseAuth.currentUser == null) {
+      return none();
+    }
+    return some(
+      User(
+        uid: Uid.fromString(
+          firebaseAuth.currentUser!.uid,
+        ),
+      ),
+    );
+  }
+
+  Future<void> signOut() => Future.wait([
+        googleSignIn.signOut(),
+        firebaseAuth.signOut(),
+      ]);
 }

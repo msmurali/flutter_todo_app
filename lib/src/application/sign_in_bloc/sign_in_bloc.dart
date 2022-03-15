@@ -20,9 +20,9 @@ SignInState initialState = SignInState(
   authStatus: none(),
 );
 
-late IAuthFacade _iAuthFacade;
-
 class SignInBloc extends Bloc<SignInEvent, SignInState> {
+  final IAuthFacade _iAuthFacade = IAuthFacade();
+
   SignInBloc() : super(initialState) {
     on<EmailChange>(_onEmailChange);
     on<PasswordChange>(_onPasswordChange);

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../application/sign_in_bloc/sign_in_bloc.dart';
 import '../router/app_routes.dart';
 import '../themes/app_themes.dart';
 
@@ -7,11 +9,14 @@ class AppWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Todoist',
-      theme: AppThemes.light,
-      onGenerateRoute: AppRoutes.generateRoute,
-      initialRoute: '/',
+    return BlocProvider(
+      create: (context) => SignInBloc(),
+      child: MaterialApp(
+        title: 'Todoist',
+        theme: AppThemes.light,
+        onGenerateRoute: AppRoutes.generateRoute,
+        initialRoute: '/',
+      ),
     );
   }
 }

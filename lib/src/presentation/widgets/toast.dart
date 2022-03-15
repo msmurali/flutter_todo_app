@@ -9,14 +9,17 @@ class Toast extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(
-        horizontal: 4.0,
-        vertical: 8.0,
+        horizontal: 24.0,
+        vertical: 4.0,
       ),
-      color: Colors.grey[350],
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(2.0),
+        color: Colors.grey[350],
+      ),
       child: Text(
         msg,
         style: const TextStyle(
-          fontSize: 18.0,
+          fontSize: 14.0,
           color: Colors.black,
           fontFamily: 'Poppins',
         ),

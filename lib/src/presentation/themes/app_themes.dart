@@ -34,6 +34,11 @@ class AppThemes {
         fontWeight: FontWeight.w400,
         color: Colors.grey,
       ),
+      errorStyle: TextStyle(
+        fontFamily: 'Poppins',
+        fontWeight: FontWeight.w500,
+        color: Colors.redAccent.shade400,
+      ),
       prefixIconColor: Colors.grey,
       border: MaterialStateOutlineInputBorder.resolveWith(
         (states) {

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../application/sign_in_bloc/sign_in_bloc.dart';
 import '../../domain/core/failures/value_failures.dart';
+import '../toast_msg_handler.dart';
 
 class SignInForm extends StatelessWidget {
   const SignInForm({Key? key}) : super(key: key);
@@ -15,14 +16,14 @@ class SignInForm extends StatelessWidget {
         (f) => f.maybeMap(
               invalidEmail: (_) {
                 String? showErrMsg(String? msg) {
-                  return 'Invalid Email';
+                  return '👉 Invalid Email';
                 }
 
                 return showErrMsg;
               },
               invalidPassword: (_) {
                 String? showErrMsg(String? msg) {
-                  return 'Invalid Password';
+                  return '👉 Invalid Password';
                 }
 
                 return showErrMsg;
@@ -40,7 +41,16 @@ class SignInForm extends StatelessWidget {
           () => {},
           (either) => {
             either.fold(
-              (failure) => {},
+              (failure) {
+                final String msg = failure.map(
+                  cancelledByUser: (_) => 'Cancelled',
+                  serverError: (_) => 'Server Error',
+                  emailAlreadyInUse: (_) => 'Email Already in Use',
+                  invalidEmailAndPasswordCombination: (_) =>
+                      'Invalid Email or Password',
+                );
+                showToastMsg(context, msg);
+              },
               (_) => {
                 // TODO: navigate
               },
@@ -49,102 +59,108 @@ class SignInForm extends StatelessWidget {
         );
       },
       builder: (context, state) {
-        return GestureDetector(
-          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-          child: NotificationListener<OverscrollIndicatorNotification>(
-            onNotification: (notification) {
-              notification.disallowIndicator();
-              return true;
-            },
-            child: ListView(
-              children: [
-                if (true)
-                  LinearProgressIndicator(
-                    color: Theme.of(context).primaryColor,
-                    backgroundColor:
-                        Theme.of(context).primaryColor.withOpacity(0.3),
-                  ),
-                const SizedBox(
-                  height: 100,
+        return NotificationListener<OverscrollIndicatorNotification>(
+          onNotification: (notification) {
+            notification.disallowIndicator();
+            return true;
+          },
+          child: ListView(
+            children: [
+              if (state.isLoading)
+                LinearProgressIndicator(
+                  color: Theme.of(context).primaryColor,
+                  backgroundColor:
+                      Theme.of(context).primaryColor.withOpacity(0.3),
                 ),
-                Form(
-                  autovalidateMode: state.showError
-                      ? AutovalidateMode.always
-                      : AutovalidateMode.disabled,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 32.0,
-                      horizontal: 24.0,
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '🎉 Welcome 🎉',
-                          style:
-                              Theme.of(context).textTheme.bodyText1!.copyWith(
-                                    color: Colors.black,
-                                    fontSize: 24.0,
-                                    letterSpacing: -.5,
-                                    fontWeight: FontWeight.w500,
-                                  ),
+              const SizedBox(
+                height: 100,
+              ),
+              Form(
+                autovalidateMode: state.showError
+                    ? AutovalidateMode.always
+                    : AutovalidateMode.disabled,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 32.0,
+                    horizontal: 24.0,
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '🎉 Welcome 🎉',
+                        style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                              color: Colors.black,
+                              fontSize: 24.0,
+                              letterSpacing: -.5,
+                              fontWeight: FontWeight.w500,
+                            ),
+                      ),
+                      const SizedBox(height: 32.0),
+                      TextFormField(
+                        initialValue: BlocProvider.of<SignInBloc>(context)
+                            .state
+                            .email
+                            .value
+                            .fold((failure) => null, (val) => val),
+                        style: const TextStyle(
+                          color: Colors.black,
                         ),
-                        const SizedBox(height: 32.0),
-                        TextFormField(
-                          style: const TextStyle(
-                            color: Colors.black,
-                          ),
-                          autocorrect: false,
-                          decoration: const InputDecoration(
-                            hintText: 'Email',
-                            prefixIcon: Icon(Icons.account_circle),
-                            isDense: true,
-                          ),
-                          onChanged: (val) =>
-                              BlocProvider.of<SignInBloc>(context).add(
-                            EmailChange(val),
-                          ),
-                          validator: _validate(
-                            BlocProvider.of<SignInBloc>(context)
-                                .state
-                                .email
-                                .value,
-                          ),
+                        autocorrect: false,
+                        decoration: const InputDecoration(
+                          hintText: 'Email',
+                          prefixIcon: Icon(Icons.account_circle),
+                          isDense: true,
                         ),
-                        const SizedBox(height: 32.0),
-                        TextFormField(
-                          style: const TextStyle(
-                            color: Colors.black,
-                          ),
-                          autocorrect: false,
-                          decoration: const InputDecoration(
-                            hintText: 'Password',
-                            prefixIcon: Icon(Icons.lock),
-                            isDense: true,
-                          ),
-                          obscureText: true,
-                          onChanged: (val) =>
-                              BlocProvider.of<SignInBloc>(context).add(
-                            PasswordChange(val),
-                          ),
-                          validator: _validate(
-                            BlocProvider.of<SignInBloc>(context)
-                                .state
-                                .password
-                                .value,
-                          ),
+                        onChanged: (val) =>
+                            BlocProvider.of<SignInBloc>(context).add(
+                          EmailChange(val),
                         ),
-                        const SizedBox(height: 32.0),
-                        const SignInOrRegisterButtonField(),
-                        const SizedBox(height: 32.0),
-                        const GoogleSignInButton(),
-                      ],
-                    ),
+                        validator: _validate(
+                          BlocProvider.of<SignInBloc>(context)
+                              .state
+                              .email
+                              .value,
+                        ),
+                      ),
+                      const SizedBox(height: 32.0),
+                      TextFormField(
+                        initialValue: BlocProvider.of<SignInBloc>(context)
+                            .state
+                            .password
+                            .value
+                            .fold((failure) => null, (val) => val),
+                        style: const TextStyle(
+                          color: Colors.black,
+                        ),
+                        autocorrect: false,
+                        decoration: const InputDecoration(
+                          hintText: 'Password',
+                          prefixIcon: Icon(Icons.lock),
+                          isDense: true,
+                        ),
+                        obscureText: true,
+                        onChanged: (val) =>
+                            BlocProvider.of<SignInBloc>(context).add(
+                          PasswordChange(val),
+                        ),
+                        validator: _validate(
+                          BlocProvider.of<SignInBloc>(context)
+                              .state
+                              .password
+                              .value,
+                        ),
+                      ),
+                      const SizedBox(height: 32.0),
+                      const SignInOrRegisterButtonField(),
+                      const SizedBox(height: 32.0),
+                      const GoogleSignInButton(),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },

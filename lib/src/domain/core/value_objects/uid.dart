@@ -1,7 +1,9 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter/foundation.dart';
 import 'package:todoist/src/domain/core/failures/value_failures.dart';
 import 'package:uuid/uuid.dart';
 
+@immutable
 class Uid {
   final Either<ValueFailure<String>, String> value;
 

@@ -1,7 +1,9 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter/foundation.dart';
 import '../errors/value_error.dart';
 import '../failures/value_failures.dart';
 
+@immutable
 class Email {
   final Either<ValueFailure<String>, String> value;
 

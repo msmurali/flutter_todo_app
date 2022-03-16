@@ -186,15 +186,25 @@ class _$InvalidEmailCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _$InvalidEmail<T> implements InvalidEmail<T> {
+class _$InvalidEmail<T>
+    with DiagnosticableTreeMixin
+    implements InvalidEmail<T> {
   const _$InvalidEmail({required this.failedValue});
 
   @override
   final T failedValue;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ValueFailure<$T>.invalidEmail(failedValue: $failedValue)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ValueFailure<$T>.invalidEmail'))
+      ..add(DiagnosticsProperty('failedValue', failedValue));
   }
 
   @override
@@ -343,15 +353,25 @@ class _$InvalidPasswordCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _$InvalidPassword<T> implements InvalidPassword<T> {
+class _$InvalidPassword<T>
+    with DiagnosticableTreeMixin
+    implements InvalidPassword<T> {
   const _$InvalidPassword({required this.failedValue});
 
   @override
   final T failedValue;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ValueFailure<$T>.invalidPassword(failedValue: $failedValue)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ValueFailure<$T>.invalidPassword'))
+      ..add(DiagnosticsProperty('failedValue', failedValue));
   }
 
   @override
@@ -506,7 +526,9 @@ class _$ExceedingMaxLengthCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _$ExceedingMaxLength<T> implements ExceedingMaxLength<T> {
+class _$ExceedingMaxLength<T>
+    with DiagnosticableTreeMixin
+    implements ExceedingMaxLength<T> {
   const _$ExceedingMaxLength({required this.failedValue, required this.max});
 
   @override
@@ -515,8 +537,17 @@ class _$ExceedingMaxLength<T> implements ExceedingMaxLength<T> {
   final int max;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ValueFailure<$T>.exceedingMaxLength(failedValue: $failedValue, max: $max)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ValueFailure<$T>.exceedingMaxLength'))
+      ..add(DiagnosticsProperty('failedValue', failedValue))
+      ..add(DiagnosticsProperty('max', max));
   }
 
   @override
@@ -671,15 +702,23 @@ class _$EmptyNoteCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _$EmptyNote<T> implements EmptyNote<T> {
+class _$EmptyNote<T> with DiagnosticableTreeMixin implements EmptyNote<T> {
   const _$EmptyNote({required this.failedValue});
 
   @override
   final T failedValue;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ValueFailure<$T>.emptyNote(failedValue: $failedValue)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ValueFailure<$T>.emptyNote'))
+      ..add(DiagnosticsProperty('failedValue', failedValue));
   }
 
   @override
@@ -828,15 +867,23 @@ class _$EmptyTodoCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _$EmptyTodo<T> implements EmptyTodo<T> {
+class _$EmptyTodo<T> with DiagnosticableTreeMixin implements EmptyTodo<T> {
   const _$EmptyTodo({required this.failedValue});
 
   @override
   final T failedValue;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ValueFailure<$T>.emptyTodo(failedValue: $failedValue)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ValueFailure<$T>.emptyTodo'))
+      ..add(DiagnosticsProperty('failedValue', failedValue));
   }
 
   @override
